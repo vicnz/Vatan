@@ -16,6 +16,7 @@ ThemeData lightTheme = ThemeData(
     onSurface: Colors.white,
     onError: Color(0xFFB00020),
   ),
+  primaryColor: const Color(0xFF90C418),
 );
 ThemeData darkTheme = ThemeData(
   colorScheme: const ColorScheme(
@@ -33,4 +34,26 @@ ThemeData darkTheme = ThemeData(
     onSurface: Color(0xFF414141),
     onError: Color(0xFFCF6679),
   ),
+  primaryColor: const Color(0xFF90C418),
 );
+
+class AppThemeMode extends ChangeNotifier {
+  ThemeMode mode = ThemeMode.light;
+
+  //Set App Theme Mode to Dark
+  void setDarkMode() {
+    mode = ThemeMode.dark;
+    notifyListeners();
+  }
+
+  //Set App Theme Mode to Light
+  void setLightMode() {
+    mode = ThemeMode.light;
+    notifyListeners();
+  }
+
+  //Set App Theme Mode to System Preferenced
+  void setToSystemMode() {
+    mode = ThemeMode.system;
+  }
+}

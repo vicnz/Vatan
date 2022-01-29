@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:ivatan_dictionary/pages/components/_animateElement.dart';
 
 //body widgets
 import 'package:ivatan_dictionary/pages/home.dart';
 import 'package:ivatan_dictionary/pages/bookmarks.dart';
 import 'package:ivatan_dictionary/pages/about.dart';
 
+//components
+import 'package:ivatan_dictionary/pages/components/_bottom_navigation.dart';
+
 class App extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    TabController _tabcontoller =
-        useTabController(initialLength: 3, initialIndex: 0);
+    //Tab Switcher Controller
+    TabController _tabcontroller = useTabController(
+      initialLength: 3,
+      initialIndex: 0,
+    );
+    //Active Tab Index
     ValueNotifier _activeTab = useState(0);
+
+    //widget
     return StatefulBuilder(
       builder: (context, setState) {
         return Scaffold(
@@ -23,11 +33,12 @@ class App extends HookWidget {
           ///APPBAR
           appBar: AppBar(
             systemOverlayStyle: SystemUiOverlayStyle(
-                statusBarColor: Colors.transparent,
-                systemNavigationBarColor:
-                    Theme.of(context).colorScheme.onPrimary),
+              statusBarColor: Colors.transparent,
+              systemNavigationBarColor: Theme.of(context).colorScheme.onPrimary,
+            ),
             backgroundColor: Theme.of(context).colorScheme.primary,
             elevation: 0,
+            //Page Logo
             leading: Icon(
               Icons.android_rounded,
               color: Theme.of(context).colorScheme.primaryVariant,
@@ -43,41 +54,9 @@ class App extends HookWidget {
           ),
 
           ///BOTTOM NAVIGATION BAR
-          bottomNavigationBar: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Material(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
-              ),
-              color: Theme.of(context).colorScheme.surface,
-              elevation: 5,
-              child: TabBar(
-                onTap: (value) => _activeTab.value = value,
-                overlayColor:
-                    MaterialStateProperty.all<Color>(Colors.transparent),
-                enableFeedback: true,
-                controller: _tabcontoller,
-                indicator: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(.3),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                indicatorSize: TabBarIndicatorSize.tab,
-                tabs: [
-                  Tab(
-                    icon: Icon(Icons.home_rounded,
-                        color: Theme.of(context).colorScheme.primary),
-                  ),
-                  Tab(
-                    icon: Icon(Icons.my_library_books_rounded,
-                        color: Theme.of(context).colorScheme.primary),
-                  ),
-                  Tab(
-                    icon: Icon(Icons.info_rounded,
-                        color: Theme.of(context).colorScheme.primary),
-                  ),
-                ],
-              ),
-            ),
+          bottomNavigationBar: BottomNavBar(
+            activeTab: _activeTab,
+            tabController: _tabcontroller,
           ),
           body: _widget_swapper(_activeTab.value),
         );
@@ -89,12 +68,34 @@ class App extends HookWidget {
 Widget _widget_swapper(index) {
   switch (index) {
     case 0:
-      return Home();
+      return SlideFrom(
+        child: FadeElement(child: Home()),
+        offset: const Offset(0, -1.0),
+        duration: const Duration(milliseconds: 500),
+      );
     case 1:
-      return Bookmark();
+      return SlideFrom(
+        child: FadeElement(child: Bookmark()),
+        offset: const Offset(0, -1.0),
+        duration: const Duration(
+          milliseconds: 500,
+        ),
+      );
     case 2:
-      return About();
+      return SlideFrom(
+        child: FadeElement(child: About()),
+        offset: const Offset(0, -1.0),
+        duration: const Duration(
+          milliseconds: 500,
+        ),
+      );
     default:
-      return Home();
+      return SlideFrom(
+        child: FadeElement(child: Home()),
+        offset: const Offset(0, -1.0),
+        duration: const Duration(
+          milliseconds: 500,
+        ),
+      );
   }
 }

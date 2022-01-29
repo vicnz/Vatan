@@ -2,14 +2,34 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 
-class PreviewWord extends MaterialPageRoute {
-  PreviewWord()
+class PreviewWordTransition extends PageRouteBuilder {
+  final Widget page;
+  PreviewWordTransition({required this.page})
       : super(
-          builder: (context) => _PreviewWordBody(),
+          pageBuilder: (context, animation, otherAnimation) => page,
+          transitionDuration: const Duration(milliseconds: 800),
+          reverseTransitionDuration: const Duration(
+            milliseconds: 500,
+          ),
+          transitionsBuilder: (context, animation, otherAnimation, child) {
+            animation = CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeInOutQuint,
+              reverseCurve: Curves.fastOutSlowIn,
+            );
+            return Align(
+              alignment: Alignment.center,
+              child: SizeTransition(
+                sizeFactor: animation,
+                child: page,
+                axisAlignment: 0,
+              ),
+            );
+          },
         );
 }
 
-class _PreviewWordBody extends HookWidget {
+class PreviewWord extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 //preview
 import 'package:ivatan_dictionary/pages/preview.dart';
+//animation
+import 'package:ivatan_dictionary/pages/components/_animateElement.dart';
 
 class Bookmark extends HookWidget {
   @override
@@ -18,7 +20,7 @@ class Bookmark extends HookWidget {
               vertical: 20,
             ),
             //BELOW
-            child: BannerCustom(),
+            child: FadeElement(child: BannerCustom()),
           ),
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.vertical(
@@ -108,7 +110,7 @@ class BodyList extends HookWidget {
           onTap: () {
             Navigator.push(
               context,
-              PreviewWord(),
+              PreviewWordTransition(page: PreviewWord()),
             );
           },
           child: Card(
@@ -164,7 +166,7 @@ class BodyList extends HookWidget {
           onTap: () {
             Navigator.push(
               context,
-              PreviewWord(),
+              PreviewWordTransition(page: PreviewWord()),
             );
           },
           child: Card(

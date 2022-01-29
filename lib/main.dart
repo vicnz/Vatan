@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 //theme
-import 'package:ivatan_dictionary/Theme.dart';
+import 'package:ivatan_dictionary/theme.dart'
+    show darkTheme, lightTheme, AppThemeMode;
 
 //App
 import 'package:ivatan_dictionary/app.dart';
 
 void main(List<String> args) {
-  runApp(const Main());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => AppThemeMode(),
+      child: const Main(),
+    ),
+  );
 }
 
 class Main extends StatelessWidget {
@@ -21,7 +28,7 @@ class Main extends StatelessWidget {
           title: "Ivatan Dictionary",
           theme: lightTheme,
           darkTheme: darkTheme,
-          themeMode: ThemeMode.system,
+          themeMode: Provider.of<AppThemeMode>(context).mode,
           home: App(),
           debugShowCheckedModeBanner: false,
           color: lightTheme.colorScheme.primary,

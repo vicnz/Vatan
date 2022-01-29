@@ -1,5 +1,10 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+//animation
+import 'package:ivatan_dictionary/pages/components/_animateElement.dart';
+//state
+import 'package:ivatan_dictionary/theme.dart' show AppThemeMode;
 
 class About extends HookWidget {
   @override
@@ -15,7 +20,7 @@ class About extends HookWidget {
               vertical: 20,
             ),
             //BELOW
-            child: BannerCustom(),
+            child: FadeElement(child: BannerCustom()),
           ),
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.vertical(
@@ -90,9 +95,10 @@ class BodyImage extends HookWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(height: 25),
           CircleAvatar(
             radius: 50,
             backgroundColor: Theme.of(context).colorScheme.secondary,
@@ -121,67 +127,89 @@ class BodyImage extends HookWidget {
           const SizedBox(
             height: 20,
           ),
-          Container(
-            height: 180,
-            width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: Stack(
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               children: [
-                //main content
-                Positioned.fill(
-                  top: 15,
-                  child: Material(
-                    elevation: 5,
-                    borderRadius: BorderRadius.circular(25),
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 15),
-                        child: Text(
-                          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae recusandae minus soluta quo dolore ea id, nemo molestias provident illum beatae obcaecati nam quis tenetur! Labore nesciunt porro pariatur. Ut facilis optio accusamus minima rem porro blanditiis similique vel et dolorem ullam molestias, est cum omnis, odio iusto! Neque, minus.",
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
+                Card(
+                  color: Theme.of(context).colorScheme.surface,
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          child: Text(
+                            "About",
+                            style: TextStyle(
+                              color:
+                                  Theme.of(context).colorScheme.primaryVariant,
+                            ),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 5,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
                             color: Theme.of(context).colorScheme.primary,
-                            fontSize:
-                                Theme.of(context).textTheme.bodyText2?.fontSize,
-                            height:
-                                Theme.of(context).textTheme.bodyText2?.height,
                           ),
                         ),
-                      ),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Theme.of(context).colorScheme.surface),
+                        const SizedBox(height: 8),
+                        Text(
+                          "Tempor amet et diam suscipit ut dolor kasd eos amet ipsum amet clita dolore clita magna. Ut sea ut dolor facilisi sit ea ullamcorper diam dolore sed stet ipsum iriure dolore sanctus sed justo facer. Amet lorem amet et sit dolor sed sit voluptua et quis eos no consequat.",
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary,
+                              height: 1.5),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                //Pill
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.secondaryVariant,
-                      borderRadius: const BorderRadius.only(
-                        bottomRight: Radius.circular(25),
-                        topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25),
-                        bottomLeft: Radius.zero,
-                      ),
-                    ),
-                    child: Text(
-                      "About Thy Self",
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primaryVariant,
-                      ),
-                    ),
-                  ),
+                const SizedBox(
+                  height: 10,
                 ),
+                ThemeChanger(),
               ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class ThemeChanger extends HookWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AppThemeMode>(
+      builder: (context, state, child) => Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ChoiceChip(
+            selectedColor:
+                Theme.of(context).colorScheme.primary.withOpacity(.3),
+            label: const Text("Light Theme"),
+            selected:
+                state.mode == ThemeMode.light && ThemeMode.system != state.mode,
+            avatar: const Icon(Icons.light_mode),
+            onSelected: (value) {
+              state.setLightMode();
+            },
+          ),
+          const SizedBox(width: 10),
+          ChoiceChip(
+            selectedColor:
+                Theme.of(context).colorScheme.primary.withOpacity(.3),
+            label: const Text("Dark Theme"),
+            selected:
+                state.mode == ThemeMode.dark && ThemeMode.system != state.mode,
+            avatar: const Icon(Icons.dark_mode),
+            onSelected: (value) {
+              state.setDarkMode();
+            },
+          )
         ],
       ),
     );

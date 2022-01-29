@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 //Route
 import 'package:ivatan_dictionary/pages/preview.dart';
+//Animation
+import 'package:ivatan_dictionary/pages/components/_animateElement.dart';
 
 class MyState extends ChangeNotifier {
   bool _isFocused = false;
@@ -41,7 +45,7 @@ class Home extends HookWidget {
                 vertical: 20,
               ),
               //BELOW
-              child: SearchBar(),
+              child: FadeElement(child: SearchBar()),
             ),
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.vertical(
@@ -138,7 +142,7 @@ class BodyImage extends HookWidget {
             backgroundColor: Theme.of(context).colorScheme.secondary,
             radius: 45,
             child: Icon(
-              Icons.mic_external_on_rounded,
+              Icons.emoji_emotions_outlined,
               size: 40,
               color: Theme.of(context).colorScheme.primaryVariant,
             ),
@@ -155,12 +159,13 @@ class BodyImage extends HookWidget {
             height: 5,
           ),
           RichText(
-            textAlign: TextAlign.justify,
+            textAlign: TextAlign.center,
             text: TextSpan(
               children: [
                 TextSpan(
                   text: "Find the meaning of that",
                   style: TextStyle(
+                    height: Theme.of(context).textTheme.bodyText1?.height,
                     color: Theme.of(context).colorScheme.secondaryVariant,
                     fontSize: Theme.of(context).textTheme.bodyText2?.fontSize,
                     fontWeight:
@@ -170,6 +175,7 @@ class BodyImage extends HookWidget {
                 TextSpan(
                   text: " Ivatan ",
                   style: TextStyle(
+                    height: Theme.of(context).textTheme.bodyText1?.height,
                     color: Theme.of(context).colorScheme.secondary,
                     fontSize: Theme.of(context).textTheme.headline6?.fontSize,
                     fontWeight:
@@ -180,6 +186,7 @@ class BodyImage extends HookWidget {
                   text:
                       "word you heard. Learning word-by-word is the building block of learning a language.",
                   style: TextStyle(
+                    height: Theme.of(context).textTheme.bodyText1?.height,
                     color: Theme.of(context).colorScheme.secondaryVariant,
                     fontSize: Theme.of(context).textTheme.bodyText2?.fontSize,
                     fontWeight:
@@ -199,9 +206,54 @@ class BodyList extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 5,
+      itemCount: 15,
       itemBuilder: (context, index) {
-        return Container(
+        return Item(index: index);
+      },
+    );
+  }
+}
+
+class Item extends HookWidget {
+  Item({Key? key, required this.index}) : super(key: key);
+  int index;
+
+  @override
+  Widget build(BuildContext context) {
+    AnimationController _animationController = useAnimationController(
+      duration: const Duration(
+        milliseconds: 300,
+      ),
+    );
+
+    Animation<double> _fade = Tween<double>(begin: -0.1, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.ease,
+      ),
+    );
+
+    Animation<Offset> _slide = Tween<Offset>(
+      begin: const Offset(-1.0, 0),
+      end: const Offset(0, 0),
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.ease,
+      ),
+    );
+
+    useEffect(() {
+      Timer(Duration(milliseconds: index * 50), () {
+        _animationController.forward();
+      });
+    });
+
+    return FadeTransition(
+      opacity: _fade,
+      child: SlideTransition(
+        position: _slide,
+        child: Container(
           margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
           child: Material(
             color: Theme.of(context).colorScheme.onSurface.withOpacity(.9),
@@ -209,7 +261,12 @@ class BodyList extends HookWidget {
             borderRadius: BorderRadius.circular(10),
             child: InkWell(
               onTap: () async {
-                await Navigator.push(context, PreviewWord());
+                await Navigator.push(
+                  context,
+                  PreviewWordTransition(
+                    page: PreviewWord(),
+                  ),
+                );
               },
               child: ListTile(
                 title: Text(
@@ -228,8 +285,8 @@ class BodyList extends HookWidget {
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
