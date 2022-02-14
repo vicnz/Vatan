@@ -1,101 +1,99 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:ivatan_dictionary/pages/components/_animateElement.dart';
-
-//body widgets
-import 'package:ivatan_dictionary/pages/home.dart';
-import 'package:ivatan_dictionary/pages/bookmarks.dart';
-import 'package:ivatan_dictionary/pages/about.dart';
 
 //components
-import 'package:ivatan_dictionary/pages/components/_bottom_navigation.dart';
+import 'package:ivatan_dictionary/components/AppBar.dart' show AppBarSection;
+import 'package:ivatan_dictionary/components/favorite/FavoriteHeaderBar.dart'
+    show FavoriteHeader;
+import 'package:ivatan_dictionary/components/favorite/FavoriteList.dart'
+    show FavoriteList;
+import 'package:ivatan_dictionary/components/Header.dart' show Header;
+import 'package:ivatan_dictionary/components/SearchBar.dart' show SearchBar;
+import 'package:ivatan_dictionary/components/Logo.dart' show PageLogo;
+import 'package:ivatan_dictionary/states/ModeTheme.dart';
+import 'package:ivatan_dictionary/states/providers.dart' show Favorites;
+import 'package:provider/provider.dart';
 
-class App extends HookWidget {
+class AppMain extends StatefulWidget {
+  const AppMain({Key? key}) : super(key: key);
+
+  @override
+  State<AppMain> createState() => _AppMainState();
+}
+
+class _AppMainState extends State<AppMain> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    //Tab Switcher Controller
-    TabController _tabcontroller = useTabController(
-      initialLength: 3,
-      initialIndex: 0,
-    );
-    //Active Tab Index
-    ValueNotifier _activeTab = useState(0);
-
-    //widget
     return StatefulBuilder(
       builder: (context, setState) {
         return Scaffold(
-          resizeToAvoidBottomInset: false,
           backgroundColor: Theme.of(context).colorScheme.background,
-          extendBody: true,
-
-          ///APPBAR
-          appBar: AppBar(
-            systemOverlayStyle: SystemUiOverlayStyle(
-              statusBarColor: Colors.transparent,
-              systemNavigationBarColor: Theme.of(context).colorScheme.onPrimary,
-            ),
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            elevation: 0,
-            //Page Logo
-            leading: Icon(
-              Icons.android_rounded,
-              color: Theme.of(context).colorScheme.primaryVariant,
-            ),
-            title: Text(
-              "Ivatan Dictionary",
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.primaryVariant,
-                fontSize:
-                    Theme.of(context).appBarTheme.titleTextStyle?.fontSize,
+          body: SafeArea(
+            child: CustomScrollView(
+              physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
               ),
+              slivers: [
+                ///Appbar
+                AppBarSection(
+                  context,
+                  PageLogo(context,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      size: Theme.of(context).iconTheme.size),
+                ),
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      ///# Header (Ivatan Dictionary) #
+                      const Header(),
+                      const SizedBox(height: 10),
+
+                      ///# Searchbar (Clickable) #
+                      SearchBar(context),
+                      const SizedBox(
+                        height: 15,
+                      )
+                    ],
+                  ),
+                ),
+
+                ///Favorite Header (Favorites)
+                SliverPersistentHeader(
+                  pinned: true,
+                  floating: true,
+                  delegate: FavoriteHeader(),
+                ),
+
+                ///Favorite Body
+                if (Provider.of<Favorites>(context).favorites.isEmpty)
+
+                  /// There is no favorite item return
+                  SliverFillRemaining(
+                    child: Center(
+                      child: Text(
+                        "You Have No Favorite Words Yet?",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
+                          fontSize:
+                              Theme.of(context).textTheme.headline6?.fontSize,
+                        ),
+                      ),
+                    ),
+                  )
+                else
+
+                  ///FavoriteList(context)
+                  ///render favorite if there favorite words
+                  FavoriteList(context),
+              ],
             ),
           ),
-
-          ///BOTTOM NAVIGATION BAR
-          bottomNavigationBar: BottomNavBar(
-            activeTab: _activeTab,
-            tabController: _tabcontroller,
-          ),
-          body: _widget_swapper(_activeTab.value),
         );
       },
     );
-  }
-}
-
-Widget _widget_swapper(index) {
-  switch (index) {
-    case 0:
-      return SlideFrom(
-        child: FadeElement(child: Home()),
-        offset: const Offset(0, -1.0),
-        duration: const Duration(milliseconds: 500),
-      );
-    case 1:
-      return SlideFrom(
-        child: FadeElement(child: Bookmark()),
-        offset: const Offset(0, -1.0),
-        duration: const Duration(
-          milliseconds: 500,
-        ),
-      );
-    case 2:
-      return SlideFrom(
-        child: FadeElement(child: About()),
-        offset: const Offset(0, -1.0),
-        duration: const Duration(
-          milliseconds: 500,
-        ),
-      );
-    default:
-      return SlideFrom(
-        child: FadeElement(child: Home()),
-        offset: const Offset(0, -1.0),
-        duration: const Duration(
-          milliseconds: 500,
-        ),
-      );
   }
 }

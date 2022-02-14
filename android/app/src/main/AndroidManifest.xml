@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ivatan_dictionary">
    <application
-        android:label="ivatan_dictionary"
+        android:label="Vatan"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
