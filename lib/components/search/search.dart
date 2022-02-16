@@ -5,6 +5,7 @@ import 'package:ivatan_dictionary/preview.dart';
 class CustomSearchDelegate extends SearchDelegate {
   List<String> words;
   List<String> items = [];
+
   CustomSearchDelegate({required this.words}) {
     query = "";
     items = [];
@@ -57,7 +58,8 @@ class CustomSearchDelegate extends SearchDelegate {
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: ListView.builder(
           physics: const BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics()),
+            parent: AlwaysScrollableScrollPhysics(),
+          ),
           itemCount: items.length,
           itemBuilder: (context, index) {
             return Padding(
@@ -71,15 +73,6 @@ class CustomSearchDelegate extends SearchDelegate {
                 ),
                 child: InkWell(
                   onTap: () async {
-                    // close(context, null);
-                    // await Navigator.push(
-                    //   context,
-                    //   PageTransition(
-                    //     page: PreviewPage(
-                    //       word: words[index],
-                    //     ),
-                    //   ),
-                    // );
                     query = items[index];
                     showResults(context);
                   },
@@ -102,7 +95,7 @@ class CustomSearchDelegate extends SearchDelegate {
     } else {
       return Center(
         child: Text(
-          "Type the Word You Want to Find?",
+          "Some Words Starts with or Ends with a (-) dash?",
           style: TextStyle(color: theme.colorScheme.onPrimary),
         ),
       );

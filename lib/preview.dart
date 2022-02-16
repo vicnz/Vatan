@@ -15,6 +15,7 @@ class PreviewPage extends StatefulWidget {
   PreviewPage({Key? key, required this.word, this.close}) : super(key: key);
   final String word;
   dynamic close;
+
   @override
   _PreviewPageState createState() => _PreviewPageState();
 }
@@ -92,9 +93,22 @@ class _PreviewPageState extends State<PreviewPage> {
                     ///then return this widget
                     SliverFillRemaining(
                       child: Center(
-                        child: Text(
-                          "There is No Word Associated To \"${widget.word}\"",
-                          style: TextStyle(color: theme.colorScheme.onPrimary),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.hourglass_empty_rounded,
+                              color: theme.colorScheme.primary,
+                              size: 75,
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              "There is No Word Associated To \"${widget.word}\"",
+                              style:
+                                  TextStyle(color: theme.colorScheme.onPrimary),
+                            ),
+                          ],
                         ),
                       ),
                     ),

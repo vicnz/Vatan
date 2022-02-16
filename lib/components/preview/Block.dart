@@ -15,12 +15,12 @@ Widget Block(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (content.runtimeType != List<String>)
+        if (content.runtimeType != List<dynamic>)
           //Title
           Text(
             title,
             style: TextStyle(
-              color: theme.colorScheme.onPrimary,
+              color: theme.colorScheme.onSecondary,
               fontSize: theme.textTheme.headline6?.fontSize,
             ),
           )
@@ -41,9 +41,9 @@ Widget Block(
             children: [
               Chip(
                 label: Text(
-                  "Related: ",
+                  "$title:",
                   style: TextStyle(
-                    color: theme.colorScheme.onSecondary,
+                    color: theme.colorScheme.background,
                   ),
                 ),
                 backgroundColor: theme.colorScheme.primary,

@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ivatan_dictionary/components/Logo.dart';
-import 'package:ivatan_dictionary/states/ModeTheme.dart';
+import 'package:ivatan_dictionary/states/modeTheme.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
+import 'package:ivatan_dictionary/states/appinfo.dart';
 
 ///
-const appVersion = "10.0";
-const appName = "Vatan";
-const appLegal = "LTS Palo-Alto";
-const appDetails = "";
 
 class Header extends StatefulWidget {
   const Header({Key? key}) : super(key: key);
@@ -19,10 +16,6 @@ class Header extends StatefulWidget {
 
 class _HeaderState extends State<Header> {
   bool mode = false;
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,16 +35,19 @@ class _HeaderState extends State<Header> {
           applicationName: appName,
           useRootNavigator: true,
           children: [
-            const SizedBox(height: 15),
-            const Text(
-              "Minim tempor sanctus lorem stet ipsum takimata dolor et dolores aliquam nulla duis rebum adipiscing. Esse duo justo eirmod clita et in at magna vel labore kasd nonummy no in. Autem magna vero sea.",
-            ),
             const Divider(),
-            const Text(
-              "There are about 5,000K words here (hopefully) since there is still a need to fetch certain data and other stuffs",
-            ),
-            const Divider(),
-            const SizedBox(height: 5),
+            ...(appDetails.map(
+              (detail) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start ,
+                  children: [
+                    Text(detail),
+                    const SizedBox(height: 15),
+                  ],
+                );
+              },
+            ).toList()),
             Consumer<ThemeModeState>(
               builder: (BuildContext context, state, child) {
                 return Center(
@@ -109,7 +105,7 @@ class _HeaderState extends State<Header> {
                 Container(
                   padding: const EdgeInsets.all(15),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
                         "Ivatan Dictionary",
@@ -120,15 +116,17 @@ class _HeaderState extends State<Header> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text(
-                        "Minim tempor sanctus lorem stet ipsum takimata dolor et dolores aliquam nulla duis rebum adipiscing. Esse duo justo eirmod clita et in at magna vel labore kasd nonummy no in. Autem magna vero sea.",
-                        style: TextStyle(
+                      Text(
+                        appDetails[0],
+                        textAlign: TextAlign.justify,
+                        style: const TextStyle(
                           color: Colors.white,
                         ),
                       ),
                       const Expanded(child: SizedBox()),
                       const Text(
                         "There Are 5,000K Words",
+                        textAlign: TextAlign.justify,
                         style: TextStyle(color: Colors.white70),
                       ),
                     ],

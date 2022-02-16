@@ -7,9 +7,9 @@ import 'package:ivatan_dictionary/components/favorite/FavoriteHeaderBar.dart'
 import 'package:ivatan_dictionary/components/favorite/FavoriteList.dart'
     show FavoriteList;
 import 'package:ivatan_dictionary/components/Header.dart' show Header;
-import 'package:ivatan_dictionary/components/SearchBar.dart' show SearchBar;
+import 'package:ivatan_dictionary/components/searchbar.dart' show SearchBar;
 import 'package:ivatan_dictionary/components/Logo.dart' show PageLogo;
-import 'package:ivatan_dictionary/states/ModeTheme.dart';
+import 'package:ivatan_dictionary/states/modeTheme.dart';
 import 'package:ivatan_dictionary/states/providers.dart' show Favorites;
 import 'package:provider/provider.dart';
 
@@ -21,10 +21,6 @@ class AppMain extends StatefulWidget {
 }
 
 class _AppMainState extends State<AppMain> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

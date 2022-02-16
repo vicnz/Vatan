@@ -56,6 +56,7 @@ Widget FavoriteItem({
                       state.favorites[index]['types'],
                       style: TextStyle(
                         color: theme.colorScheme.primary,
+                        fontStyle: FontStyle.italic,
                       ),
                     ),
                   ],

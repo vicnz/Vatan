@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ivatan_dictionary/app.dart';
-import 'package:ivatan_dictionary/states/ModeTheme.dart';
+import 'package:ivatan_dictionary/states/modeTheme.dart';
 import 'package:ivatan_dictionary/states/providers.dart';
 
 //ThemeData
@@ -55,6 +55,15 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+
+    /// SET SYSTEM BARS TRANSPARENT
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Theme.of(context).colorScheme.primary,
+      ),
+    );
+
     return FutureBuilder(
       future: init(),
       builder: (

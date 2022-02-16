@@ -24,9 +24,12 @@ Widget SampleBlock(BuildContext context,
           children: [
             Text(
               "\"${sample!}\"",
-              style: TextStyle(color: theme.colorScheme.secondary),
+              style: TextStyle(
+                color: theme.colorScheme.secondary,
+                fontStyle: FontStyle.italic,
+              ),
             ),
-            const Divider(),
+            Divider(color: theme.colorScheme.primary),
             Text(
               translation!,
               style: TextStyle(color: theme.colorScheme.secondary),

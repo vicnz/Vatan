@@ -26,7 +26,7 @@ Widget DefinitionBlock(
             color: theme.colorScheme.onBackground.withOpacity(.5),
             blurRadius: 8,
             spreadRadius: -4,
-            offset: const Offset(0, 2),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -38,7 +38,7 @@ Widget DefinitionBlock(
             label: Text(
               type.toUpperCase(),
               style: TextStyle(
-                color: theme.colorScheme.onSecondary,
+                color: theme.colorScheme.background,
               ),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -96,7 +96,7 @@ Widget DefinitionBlock(
                   ? Block(
                       context,
                       title: "Synonyms",
-                      content: content.synonym?.join(","),
+                      content: content.synonym,
                     )
                   : const SizedBox(),
               //Antonyms
@@ -104,7 +104,7 @@ Widget DefinitionBlock(
                   ? Block(
                       context,
                       title: "Antonyms",
-                      content: content.antonym?.join(","),
+                      content: content.antonym,
                     )
                   : const SizedBox(),
               //Morphonemics
