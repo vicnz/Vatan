@@ -1,16 +1,18 @@
+//dart
 import 'dart:io';
-
+//flutter
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ivatan_dictionary/app.dart';
-import 'package:ivatan_dictionary/states/modeTheme.dart';
-import 'package:ivatan_dictionary/states/providers.dart';
-
-//ThemeData
-import 'package:ivatan_dictionary/theme.dart' show lightTheme, darkTheme;
+//others
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+//ivatan
+import 'package:ivatan_dictionary/app.dart';
+import 'package:ivatan_dictionary/states/modeTheme.dart';
+import 'package:ivatan_dictionary/states/providers.dart';
+import 'package:ivatan_dictionary/theme.dart' show lightTheme, darkTheme;
+import 'package:ivatan_dictionary/states/appinfo.dart' show databaseVersion;
 
 void main(List<String> args) {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +27,6 @@ void main(List<String> args) {
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
-
   @override
   State<App> createState() => _AppState();
 }
@@ -50,12 +51,12 @@ class _AppState extends State<App> {
         print("Error Copying Database \n$_");
       }
     }
-    return await openDatabase(dbPath);
+    Future.delayed(const Duration(milliseconds: 3500)); //Splash Screen
+    return await openDatabase(dbPath, version: databaseVersion);
   }
 
   @override
   Widget build(BuildContext context) {
-
     /// SET SYSTEM BARS TRANSPARENT
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
@@ -73,13 +74,14 @@ class _AppState extends State<App> {
         if (snapshot.hasData) {
           return MultiProvider(
             providers: [
-              //Database State
+              /// Database State
               ChangeNotifierProvider(
                 create: (context) => DatabaseInstance(
                   db: snapshot.data!,
                 ),
               ),
-              //Favorites State
+
+              /// Favorites State
               ChangeNotifierProvider(
                 create: (_) {
                   return Favorites(db: snapshot.data!)
@@ -94,15 +96,11 @@ class _AppState extends State<App> {
               title: "Vatan",
               themeMode: Provider.of<ThemeModeState>(context).mode,
               debugShowCheckedModeBanner: false,
-              color:
-                  (Provider.of<ThemeModeState>(context).mode == ThemeMode.light)
-                      ? lightTheme.colorScheme.background
-                      : darkTheme.colorScheme.background,
+              color: lightTheme.primaryColor,
             ),
-
-            /// # TO OUR MAIN APP
           );
         } else {
+          /// awaiting database copy operation
           return MaterialApp(
             theme: lightTheme,
             darkTheme: darkTheme,
@@ -114,10 +112,7 @@ class _AppState extends State<App> {
             title: "Vatan",
             themeMode: Provider.of<ThemeModeState>(context).mode,
             debugShowCheckedModeBanner: false,
-            color:
-                (Provider.of<ThemeModeState>(context).mode == ThemeMode.light)
-                    ? lightTheme.colorScheme.background
-                    : darkTheme.colorScheme.background,
+            color: darkTheme.primaryColor,
           );
         }
       },

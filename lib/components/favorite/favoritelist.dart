@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ivatan_dictionary/components/favorite/FavoriteItem.dart';
+import 'package:ivatan_dictionary/components/favorite/favoriteitem.dart';
 import 'package:ivatan_dictionary/states/providers.dart' show Favorites;
 import 'package:provider/provider.dart';
 

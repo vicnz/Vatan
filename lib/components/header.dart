@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ivatan_dictionary/components/Logo.dart';
+import 'package:ivatan_dictionary/components/logo.dart';
 import 'package:ivatan_dictionary/states/modeTheme.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';

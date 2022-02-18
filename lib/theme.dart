@@ -17,9 +17,10 @@ ThemeData lightTheme = ThemeData(
     onSurface: Colors.blue.shade400,
   ),
 );
+
 ///DARK THEME DATA
 ThemeData darkTheme = ThemeData(
-  primaryColor: Colors.blue[400],
+  primaryColor: Colors.blue[300],
   colorScheme: ColorScheme(
     brightness: Brightness.light,
     primary: Colors.blue.shade400,
@@ -30,7 +31,7 @@ ThemeData darkTheme = ThemeData(
     onError: Colors.white,
     background: Colors.blueGrey.shade900,
     onBackground: Colors.grey.shade900,
-    surface: Colors.blueGrey.shade700.withOpacity(.5),
+    surface: Colors.blueGrey.shade700.withOpacity(.8),
     onSurface: Colors.blue.shade400,
   ),
 );

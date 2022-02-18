@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 //components
-import 'package:ivatan_dictionary/components/AppBar.dart' show AppBarSection;
-import 'package:ivatan_dictionary/components/preview/DefinitionBlock.dart';
-import 'package:ivatan_dictionary/components/preview/PreviewHeader.dart'
+import 'package:ivatan_dictionary/components/appbar.dart' show AppBarSection;
+import 'package:ivatan_dictionary/components/preview/definitionblock.dart';
+import 'package:ivatan_dictionary/components/preview/previewheader.dart'
     show PreviewHeader;
 import 'package:ivatan_dictionary/models/word_content.dart';
 import 'package:ivatan_dictionary/models/word_definition_item.dart';
@@ -21,10 +21,6 @@ class PreviewPage extends StatefulWidget {
 }
 
 class _PreviewPageState extends State<PreviewPage> {
-  /// Get WordList Items
-  /// @ BuildContext context
-  /// @ String word
-  /// -> List<WordResultItem>
   Future fetchData(BuildContext context, String word) async {
     Database? db = Provider.of<DatabaseInstance>(context).db;
     var result =

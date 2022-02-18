@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 //components
-import 'package:ivatan_dictionary/components/preview/SampleBlock.dart'
+import 'package:ivatan_dictionary/components/preview/sampleblock.dart'
     show SampleBlock, SampleList;
-import 'package:ivatan_dictionary/components/preview/Block.dart' show Block;
-import 'package:ivatan_dictionary/components/preview/VariantBlock.dart';
+import 'package:ivatan_dictionary/components/preview/block.dart' show Block;
+import 'package:ivatan_dictionary/components/preview/variantblock.dart';
 import 'package:ivatan_dictionary/models/word_definition_item.dart';
 
 ///DEFINITION BLOCK

@@ -29,7 +29,7 @@ Widget VariantBlock(
                 : const SizedBox(),
           ],
         ),
-        Divider( color: theme.primaryColor),
+        Divider(color: theme.primaryColor),
       ],
     );
   }

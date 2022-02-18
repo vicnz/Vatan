@@ -1,27 +1,26 @@
+//flutter
 import 'package:flutter/material.dart';
-
-//components
-import 'package:ivatan_dictionary/components/AppBar.dart' show AppBarSection;
-import 'package:ivatan_dictionary/components/favorite/FavoriteHeaderBar.dart'
-    show FavoriteHeader;
-import 'package:ivatan_dictionary/components/favorite/FavoriteList.dart'
-    show FavoriteList;
-import 'package:ivatan_dictionary/components/Header.dart' show Header;
-import 'package:ivatan_dictionary/components/searchbar.dart' show SearchBar;
-import 'package:ivatan_dictionary/components/Logo.dart' show PageLogo;
-import 'package:ivatan_dictionary/states/modeTheme.dart';
-import 'package:ivatan_dictionary/states/providers.dart' show Favorites;
+//others
 import 'package:provider/provider.dart';
+
+//app
+import 'package:ivatan_dictionary/components/appbar.dart' show AppBarSection;
+import 'package:ivatan_dictionary/components/favorite/favoriteheader.dart'
+    show FavoriteHeader;
+import 'package:ivatan_dictionary/components/favorite/favoritelist.dart'
+    show FavoriteList;
+import 'package:ivatan_dictionary/components/header.dart' show Header;
+import 'package:ivatan_dictionary/components/searchbar.dart' show SearchBar;
+import 'package:ivatan_dictionary/components/logo.dart' show PageLogo;
+import 'package:ivatan_dictionary/states/providers.dart' show Favorites;
 
 class AppMain extends StatefulWidget {
   const AppMain({Key? key}) : super(key: key);
-
   @override
   State<AppMain> createState() => _AppMainState();
 }
 
 class _AppMainState extends State<AppMain> {
-
   @override
   Widget build(BuildContext context) {
     return StatefulBuilder(

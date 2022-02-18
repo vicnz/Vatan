@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ivatan_dictionary/components/animations/HeartAnimation.dart';
+import 'package:ivatan_dictionary/components/animations/heartanimation.dart';
 import 'package:ivatan_dictionary/states/providers.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
