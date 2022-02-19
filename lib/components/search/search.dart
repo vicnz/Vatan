@@ -80,7 +80,7 @@ class CustomSearchDelegate extends SearchDelegate {
                     title: Text(
                       items[index],
                       style: TextStyle(
-                        color: theme.colorScheme.onSecondary,
+                        color: theme.colorScheme.onPrimary,
                       ),
                     ),
                     trailing: Icon(Icons.chevron_right_rounded,

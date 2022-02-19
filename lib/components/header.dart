@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ivatan_dictionary/components/logo.dart';
+import 'package:ivatan_dictionary/components/urls.dart';
 import 'package:ivatan_dictionary/states/modeTheme.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +41,7 @@ class _HeaderState extends State<Header> {
               (detail) {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start ,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(detail),
                     const SizedBox(height: 15),
@@ -48,10 +49,15 @@ class _HeaderState extends State<Header> {
                 );
               },
             ).toList()),
+
+            /// URLs
+            URLs(context),
+
+            /// ThemeData Toggle
             Consumer<ThemeModeState>(
               builder: (BuildContext context, state, child) {
                 return Center(
-                  child: Column(
+                  child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -63,7 +69,6 @@ class _HeaderState extends State<Header> {
                           activeColor: theme.colorScheme.primary,
                           value: (state.mode == ThemeMode.light),
                           onChanged: (bool value) {
-                            // print(state.mode);
                             if (state.mode == ThemeMode.light) {
                               state.useDark();
                             } else {

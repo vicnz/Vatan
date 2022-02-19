@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 //ivatan
 import 'package:ivatan_dictionary/app.dart';
 import 'package:ivatan_dictionary/states/modeTheme.dart';
@@ -14,7 +15,7 @@ import 'package:ivatan_dictionary/states/providers.dart';
 import 'package:ivatan_dictionary/theme.dart' show lightTheme, darkTheme;
 import 'package:ivatan_dictionary/states/appinfo.dart' show databaseVersion;
 
-void main(List<String> args) {
+void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     // ThemeMode state
@@ -32,6 +33,8 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  late ThemeMode mode;
+
   //Initialize Database
   Future<Database> init() async {
     var databaseDirectory = await getDatabasesPath();
@@ -51,17 +54,16 @@ class _AppState extends State<App> {
         print("Error Copying Database \n$_");
       }
     }
-    Future.delayed(const Duration(milliseconds: 3500)); //Splash Screen
-    return await openDatabase(dbPath, version: databaseVersion);
+    Database db = await openDatabase(dbPath, version: databaseVersion);
+    return db;
   }
 
   @override
   Widget build(BuildContext context) {
-    /// SET SYSTEM BARS TRANSPARENT
+    //SET SYSTEM BARS
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
+      const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        systemNavigationBarColor: Theme.of(context).colorScheme.primary,
       ),
     );
 
@@ -71,6 +73,24 @@ class _AppState extends State<App> {
         BuildContext context,
         AsyncSnapshot<Database> snapshot,
       ) {
+        //Set Prefered Theme on Load
+        setSharedPref().then(
+          (pref) {
+            String? userTheme = pref.getString('user-theme');
+            if (userTheme == null) {
+              Provider.of<ThemeModeState>(context, listen: false).useLight();
+            } else {
+              if (userTheme == 'light') {
+                Provider.of<ThemeModeState>(context, listen: false).useLight();
+              } else if (userTheme == 'dark') {
+                Provider.of<ThemeModeState>(context, listen: false).useDark();
+              } else {
+                Provider.of<ThemeModeState>(context, listen: false).useDark();
+              }
+            }
+          },
+        );
+
         if (snapshot.hasData) {
           return MultiProvider(
             providers: [

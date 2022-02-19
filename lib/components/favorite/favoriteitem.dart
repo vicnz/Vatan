@@ -67,7 +67,18 @@ Widget FavoriteItem({
                     color: theme.colorScheme.onSurface,
                   ),
                   onPressed: () async {
-                    //# Remove Favorites from Database and Updatez
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          "Removed Item ${state.favorites[index]['word']}",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.background,
+                          ),
+                        ),
+                      ),
+                    );
+
+                    /// Remove Favorites from Database and Updatez
                     await state.removeFavorites(
                       db: Provider.of<DatabaseInstance>(context, listen: false)
                           .db,
